@@ -1,19 +1,19 @@
 # Connect with People on LinkedIn, Send a Custom Message with Person's Name Automatically!
 A Python Selenium bot to automate connection with people on LinkedIn
 
-<b>Send 200 connection requests in 15 minutes with one click, custom connect message with person's name included!</b>
+<b>Send 200 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
-## How To
+## How To Use
 
 ### Change:
 
-  •  Your Linked in email `username`
+  •  The email to login on LinkedIn `username`
   
   •  Your password `password`
   
   •  a person on LinkedIn in whose connections You are interested `search_query`
   
-  •  Your custom message (without greating please, the greating is included in the code!) `message.txt`
+  •  Your custom message (without greating, the greating is included in the code!) `message.txt`
     
 ### Install Python:
 
