@@ -2,7 +2,7 @@
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
-$50 for 2 hours lesson
+$25 for 1 hour lesson
 Put stars and share!!!
 '''
 from selenium import webdriver
