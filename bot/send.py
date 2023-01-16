@@ -27,7 +27,7 @@ options.add_experimental_option("detach", True)
 options.add_argument('--no-sandbox')
 #options.add_argument('--disable-dev-shm-usage') # uses disk instead of RAM, may be slow
 
-s = 15 #time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later»
+s = 20 #time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later»
 
 driver = webdriver.Edge(service=my_service, options=options)
 action = ActionChains(driver)
@@ -40,9 +40,28 @@ text_file.close()
 username = "nakigoetenshi@gmail.com"
 password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
-# a person who's contact list you like:
-search_link = "https://www.linkedin.com/in/josh-cohen-4812259/" 
+search_link = "https://www.linkedin.com/in/nakigoe"
 
+def login():
+    driver.get(login_page)
+    wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="username"]'))).send_keys(username)
+    wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="password"]'))).send_keys(password)
+    action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Sign in")]')))).perform()
+
+def scroll_to_bottom(): 
+    reached_page_end= False
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    
+    #expand the skills list:
+    while not reached_page_end:
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        time.sleep(2)
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if last_height == new_height:
+            reached_page_end = True
+        else:
+            last_height = new_height
+            
 def connect(name):
     try:
         #add note button:      
@@ -54,15 +73,21 @@ def connect(name):
         cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
         
         cover_letter_text.send_keys(personalized_message) 
-    
-        action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))).perform()
+        send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))
+        action.move_to_element(send_button).perform()
+        time.sleep(0.5)
+        action.click(send_button).perform()
+        time.sleep(1)
         
     except TimeoutException:
-        do = "nothing"           
+        return 1           
     except StaleElementReferenceException:
-        do = "nothing"
+        return 1
+    except:
+        return 1
 
 def click_all_people_on_the_page():
+    scroll_to_bottom()
     results = driver.find_elements(By.XPATH, '//div[@class="entity-result__item"]')
     for result in results:
         button_text = result.find_element(By.XPATH, './/span[@class="artdeco-button__text"]').get_attribute('innerHTML').strip("\n ")
@@ -71,21 +96,18 @@ def click_all_people_on_the_page():
         elif button_text == "Connect":
             person_button = result.find_element(By.XPATH, './/button[@class="artdeco-button artdeco-button--2 artdeco-button--secondary ember-view"]')
             person_name = result.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
+            action.move_to_element(person_button).perform()
+            time.sleep(0.5)
             action.click(person_button).perform()
             time.sleep(1)
             connect(person_name)
-    
-def login():
-    driver.get(login_page)
-    wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="username"]'))).send_keys(username)
-    wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="password"]'))).send_keys(password)
-    action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Sign in")]')))).perform()
         
 def main():
     login()
     time.sleep(15)
     driver.get(search_link)
     action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="ember-view"]')))).perform()
+    time.sleep(10)
     while True:
         try:
             time.sleep(10)
@@ -97,7 +119,11 @@ def main():
         if test_results_presence:
             click_all_people_on_the_page()
         try:
-            action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))).perform()
+            scroll_to_bottom()
+            next_page_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))
+            action.move_to_element(next_page_button).perform()
+            time.sleep(0.5)
+            action.click(next_page_button).perform()
         except TimeoutException:
             break
         except StaleElementReferenceException:
