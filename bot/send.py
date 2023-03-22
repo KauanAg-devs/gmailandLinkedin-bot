@@ -94,7 +94,7 @@ def click_all_people_on_the_page():
         if button_text == "Pending":
             continue
         elif button_text == "Connect":
-            person_button = result.find_element(By.XPATH, './/button[@class="artdeco-button artdeco-button--2 artdeco-button--secondary ember-view"]')
+            person_button = result.find_element(By.XPATH, './/button//span[contains(., "Connect")]/parent::button')
             person_name = result.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
             action.move_to_element(person_button).perform()
             time.sleep(0.5)
