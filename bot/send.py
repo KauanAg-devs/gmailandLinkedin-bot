@@ -91,9 +91,7 @@ def click_all_people_on_the_page():
     results = driver.find_elements(By.XPATH, '//div[@class="entity-result__item"]')
     for result in results:
         button_text = result.find_element(By.XPATH, './/span[@class="artdeco-button__text"]').get_attribute('innerHTML').strip("\n ")
-        if button_text == "Pending":
-            continue
-        elif button_text == "Connect":
+        if button_text == "Connect":
             person_button = result.find_element(By.XPATH, './/button//span[contains(., "Connect")]/parent::button')
             person_name = result.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
             action.move_to_element(person_button).perform()
@@ -101,6 +99,8 @@ def click_all_people_on_the_page():
             action.click(person_button).perform()
             time.sleep(1)
             connect(person_name)
+        else:
+            continue
         
 def main():
     login()
