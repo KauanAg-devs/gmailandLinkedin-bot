@@ -90,7 +90,7 @@ def hide_header_and_messenger():
     hide_header = wait.until(EC.presence_of_element_located((By.XPATH, '//header[@id="global-nav"]')))
     driver.execute_script("arguments[0].style.display = 'none';", hide_header)
     
-    hide_top_menu = wait.until(EC.presence_of_element_located((By.XPATH, '//section[@class="scaffold-layout-toolbar"]')))
+    hide_top_menu = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'section.scaffold-layout-toolbar')))
     driver.execute_script("arguments[0].style.display = 'none';", hide_top_menu)
     
     hide_main_messenger = wait.until(EC.presence_of_element_located((By.XPATH, '//aside[@id="msg-overlay"]')))
