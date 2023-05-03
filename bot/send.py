@@ -86,38 +86,50 @@ def connect(name):
     except:
         return 1
 
-def click_all_people_on_the_page():
+def hide_header_and_messenger():    
+    hide_header = wait.until(EC.presence_of_element_located((By.XPATH, '//header[@id="global-nav"]')))
+    driver.execute_script("arguments[0].style.display = 'none';", hide_header)
+    
+    hide_top_menu = wait.until(EC.presence_of_element_located((By.XPATH, '//section[@class="scaffold-layout-toolbar"]')))
+    driver.execute_script("arguments[0].style.display = 'none';", hide_top_menu)
+    
+    hide_main_messenger = wait.until(EC.presence_of_element_located((By.XPATH, '//aside[@id="msg-overlay"]')))
+    driver.execute_script("arguments[0].style.display = 'none';", hide_main_messenger)
+
+def find_connect_buttons_and_people_names_and_perform_connect():
     scroll_to_bottom()
-    results = driver.find_elements(By.XPATH, '//div[@class="entity-result__item"]')
-    for result in results:
-        button_text = result.find_element(By.XPATH, './/span[@class="artdeco-button__text"]').get_attribute('innerHTML').strip("\n ")
-        if button_text == "Connect":
-            person_button = result.find_element(By.XPATH, './/button//span[contains(., "Connect")]/parent::button')
-            person_name = result.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
-            action.move_to_element(person_button).perform()
-            time.sleep(0.5)
-            action.click(person_button).perform()
-            time.sleep(1)
-            connect(person_name)
-        else:
-            continue
+    time.sleep(1)
+    connect_buttons = driver.find_elements(By.XPATH, '//button//span[contains(., "Connect")]')
+    for connect_button in connect_buttons:
+        person = connect_button.find_element(By.XPATH, './/ancestor::div[@class="entity-result__item"]')
+        person_name = person.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
+        action.move_to_element(connect_button).perform()
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", connect_button)
+        time.sleep(1)
+        connect(person_name)
         
 def main():
     login()
     time.sleep(15)
     driver.get(search_link)
     action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="ember-view"]')))).perform()
-    time.sleep(10)
+    time.sleep(15)
+    hide_header_and_messenger()
     while True:
         try:
-            time.sleep(10)
+            scroll_to_bottom()
+            time.sleep(5)
             test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="entity-result__item"]')))
         except TimeoutException:
             break
         except StaleElementReferenceException:
             break
         if test_results_presence:
-            click_all_people_on_the_page()
+            #insert open «Follow» page function call here (if you write it)
+                     
+            #direct connect with the person's name included:
+            find_connect_buttons_and_people_names_and_perform_connect()
         try:
             scroll_to_bottom()
             next_page_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))
