@@ -14,6 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.edge import service
+from random import *
 import os
 os.system("cls") #clear screen from previous sessions
 import time
@@ -41,6 +42,11 @@ username = "nakigoetenshi@gmail.com"
 password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
 search_link = "https://www.linkedin.com/in/nakigoe"
+
+weekly_counter = 0 #load from file!
+text_file = open("linkedin-weekly-counter.txt", "r")
+weekly_counter = int(text_file.readline())
+text_file.close()
 
 def login():
     driver.get(login_page)
@@ -78,7 +84,7 @@ def connect(name):
         time.sleep(0.5)
         action.click(send_button).perform()
         time.sleep(1)
-        
+        return 0 #OK, sent
     except TimeoutException:
         return 1           
     except StaleElementReferenceException:
@@ -97,6 +103,7 @@ def hide_header_and_messenger():
     driver.execute_script("arguments[0].style.display = 'none';", hide_main_messenger)
 
 def find_connect_buttons_and_people_names_and_perform_connect():
+    global weekly_counter
     scroll_to_bottom()
     time.sleep(1)
     connect_buttons = driver.find_elements(By.XPATH, '//button//span[contains(., "Connect")]')
@@ -107,7 +114,16 @@ def find_connect_buttons_and_people_names_and_perform_connect():
         time.sleep(1)
         driver.execute_script("arguments[0].click();", connect_button)
         time.sleep(1)
-        connect(person_name)
+        if (weekly_counter<195 and connect(person_name) == 0): 
+            weekly_counter +=1
+            with open('linkedin-weekly-counter.txt', 'w') as a:
+                a.writelines(str(weekly_counter))
+            time.sleep(randint(1, 10)) # to reduce LinkedIn automation detection
+        elif(weekly_counter>=195): # to reduce LinkedIn automation detection
+            os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
+            print("You've reached Your weekly limit of 195 connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
+            driver.close()
+            driver.quit()
         
 def main():
     login()
