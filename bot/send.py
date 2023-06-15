@@ -43,6 +43,8 @@ password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
 search_link = "https://www.linkedin.com/in/nakigoe"
 
+weekly_limit = 200 
+weekly_limit -= 5 #go 5 below the limit
 weekly_counter = 0 #load from file!
 text_file = open("linkedin-weekly-counter.txt", "r")
 weekly_counter = int(text_file.readline())
@@ -119,9 +121,9 @@ def find_connect_buttons_and_people_names_and_perform_connect():
             with open('linkedin-weekly-counter.txt', 'w') as a:
                 a.writelines(str(weekly_counter))
             time.sleep(randint(1, 10)) # to reduce LinkedIn automation detection
-        elif(weekly_counter>=195): # to reduce LinkedIn automation detection
+        elif(weekly_counter >= weekly_limit): # to reduce LinkedIn automation detection
             os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
-            print("You've reached Your weekly limit of 195 connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
+            print("You've reached Your weekly limit of"+ weekly_limit + "connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
             driver.close()
             driver.quit()
         

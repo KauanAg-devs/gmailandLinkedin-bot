@@ -4,6 +4,11 @@ A Python Selenium bot to automate connection with people on LinkedIn
 <b>Send 200 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
 ## How To Use
+### Change Weekly:
+
+There is a weekly limit of invitations that could be sent on LinkedIn, so, to reduce automation detection, Your current weekly limit is set to 200 in `weekly_limit` and Your current `weekly_counter` is stored in a separate file `linkedin-weekly-counter.txt`.
+
+Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt` back to 0 every Monday! Just utilize any text editor and replace any value inside the file with `0`
 
 ### Change:
 
@@ -23,17 +28,13 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
   •  Selenium `pip install selenium`
 
-### Install `Edge-driver` into the bot's folder:
-
-  •  https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
-  
 ### Start Connecting with People on LinkedIn!
 
   •  double-click on `start.bat`
 
 The fresh version is always here: https://github.com/nakigoe/linkedin-bot
 <br> Please write if You would like programming lessons: nakigoetenshi@gmail.com
-<br> $25 per hour lessons
+<br> $60 per hour
 
 <h2 style="margin: 0 auto" align="center">Put stars on GitHub and share!!!</h2>
 <br>
