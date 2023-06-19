@@ -43,7 +43,7 @@ password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
 search_link = "https://www.linkedin.com/in/nakigoe"
 
-weekly_limit = 200 
+weekly_limit = 100 
 weekly_limit -= 5 #go 5 below the limit
 weekly_counter = 0 #load from file!
 text_file = open("linkedin-weekly-counter.txt", "r")
@@ -106,6 +106,7 @@ def hide_header_and_messenger():
 
 def find_connect_buttons_and_people_names_and_perform_connect():
     global weekly_counter
+    hide_header_and_messenger()
     scroll_to_bottom()
     time.sleep(1)
     connect_buttons = driver.find_elements(By.XPATH, '//button//span[contains(., "Connect")]')
