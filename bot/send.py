@@ -124,7 +124,7 @@ def find_connect_buttons_and_people_names_and_perform_connect():
             time.sleep(randint(1, 10)) # to reduce LinkedIn automation detection
         elif(weekly_counter >= weekly_limit): # to reduce LinkedIn automation detection
             os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
-            print("You've reached Your weekly limit of"+ weekly_limit + "connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
+            print("You've reached Your weekly limit of"+ str(weekly_limit) + "connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
             driver.close()
             driver.quit()
         
