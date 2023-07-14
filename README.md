@@ -17,9 +17,10 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   
   •  Your password `password`
   
-  •  a person on LinkedIn in whose connections You are interested `search_query`
+  •  A person on LinkedIn in whose connections You are interested `search_query`
+  
       Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
-      You have to find a person who allowed his/her contacts to be browsed.
+      You have to find a person who allowed his / her contacts to be browsed.
   
   •  Your custom message (without greating, the greating is included in the code!) `message.txt`
     
