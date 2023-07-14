@@ -19,8 +19,8 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   
   •  A person on LinkedIn in whose connections You are interested `search_query`
   
-      Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
-      You have to find a person who allowed his / her contacts to be browsed.
+  Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
+  You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
   
   •  Your custom message (without greating, the greating is included in the code!) `message.txt`
     
