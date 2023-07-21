@@ -132,7 +132,7 @@ def main():
     login()
     time.sleep(15)
     driver.get(search_link)
-    action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="ember-view"]')))).perform()
+    action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
     time.sleep(15)
     hide_header_and_messenger()
     while True:
