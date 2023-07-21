@@ -5,6 +5,10 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 ## How To Use
 
+Screen resolution and width is rather important when it comes to LinkedIn.
+
+The script is tested on 1280px and 1366px screen width resolutions.  It is working!
+
 ### Change Weekly:
 
 There is a weekly limit of invitations that could be sent on LinkedIn, so, to reduce automation detection, Your current weekly limit is set to 100 in `weekly_limit` and Your current `weekly_counter` is stored in a separate file `linkedin-weekly-counter.txt`.
