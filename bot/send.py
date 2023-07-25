@@ -117,6 +117,11 @@ def find_connect_buttons_and_people_names_and_perform_connect():
         time.sleep(1)
         driver.execute_script("arguments[0].click();", connect_button)
         time.sleep(1)
+        try:
+            got_it_button = driver.find_element(By.XPATH, '//button//span[contains(., "Got it")]')
+            driver.execute_script("arguments[0].click();", got_it_button)
+        except:
+            bla = "Ok"
         if (weekly_counter<195 and connect(person_name) == 0): 
             weekly_counter +=1
             with open('linkedin-weekly-counter.txt', 'w') as a:
