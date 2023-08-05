@@ -53,6 +53,10 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
 
   •  https://www.python.org/downloads/
 
+### Install PIP If it Has Not been Installed With Python Automatically:
+
+  •  https://pip.pypa.io/en/stable/installation/
+
 ### Install Libraries (please open the command line interface):
 
   •  Selenium `pip install selenium`
