@@ -1,0 +1,4 @@
+I'm Maxim Angel.
+I love web-programming with C# and web-design with advanced, GPU-optimized CSS animations.
+Learn more about me: 
+https://nakigoe.org

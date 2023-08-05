@@ -2,7 +2,7 @@
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
-$25 for 1 hour lesson
+$60 for 1 hour lesson
 Put stars and share!!!
 '''
 from selenium import webdriver
@@ -34,17 +34,19 @@ driver = webdriver.Edge(service=my_service, options=options)
 action = ActionChains(driver)
 wait = WebDriverWait(driver,s)
 
-text_file = open("message.txt", "r")
-message = text_file.read()
-text_file.close()
+message = []
+for i in range(11): #the number of messages in the directory, currently from 0 to 10
+    text_file = open("linkedin-invitation-"+str(i)+".txt", "r")
+    message.append(text_file.read())
+    text_file.close()
 
 username = "nakigoetenshi@gmail.com"
 password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
-search_link = "https://www.linkedin.com/in/nakigoe"
+search_link = "https://www.linkedin.com/in/nakigoe-angel/"
 
-weekly_limit = 100 
-weekly_limit -= 5 #go 5 below the limit
+weekly_limit=100 #increase up to Your current limit
+weekly_limit -=5 # just for the sake of safety, besides, You want to be able to add some connections by hand!
 weekly_counter = 0 #load from file!
 text_file = open("linkedin-weekly-counter.txt", "r")
 weekly_counter = int(text_file.readline())
@@ -75,8 +77,8 @@ def connect(name):
         #add note button:      
         action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Add a note"]')))).perform()
         
-        #store the person's name and attach to the message:
-        personalized_message = "Dear " + name + "\n" + message
+        #store the person's name and attach to the random message to reduce automation detection:
+        personalized_message = "Dear " + name + "\n" + message[randint(0,10)]
         
         cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
         
@@ -98,7 +100,7 @@ def hide_header_and_messenger():
     hide_header = wait.until(EC.presence_of_element_located((By.XPATH, '//header[@id="global-nav"]')))
     driver.execute_script("arguments[0].style.display = 'none';", hide_header)
     
-    hide_top_menu = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.scaffold-layout-toolbar')))
+    hide_top_menu = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'scaffold-layout-toolbar')))
     driver.execute_script("arguments[0].style.display = 'none';", hide_top_menu)
     
     hide_main_messenger = wait.until(EC.presence_of_element_located((By.XPATH, '//aside[@id="msg-overlay"]')))
@@ -122,14 +124,15 @@ def find_connect_buttons_and_people_names_and_perform_connect():
             driver.execute_script("arguments[0].click();", got_it_button)
         except:
             bla = "Ok"
-        if (weekly_counter<195 and connect(person_name) == 0): 
+             
+        if (weekly_counter<weekly_limit and connect(person_name) == 0): 
             weekly_counter +=1
             with open('linkedin-weekly-counter.txt', 'w') as a:
                 a.writelines(str(weekly_counter))
             time.sleep(randint(1, 10)) # to reduce LinkedIn automation detection
-        elif(weekly_counter >= weekly_limit): # to reduce LinkedIn automation detection
+        elif(weekly_counter>=weekly_limit): # to reduce LinkedIn automation detection
             os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
-            print("You've reached Your weekly limit of"+ str(weekly_limit) + "connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
+            print("You've reached Your weekly limit of "+ str(weekly_limit) +" connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
             driver.close()
             driver.quit()
         
