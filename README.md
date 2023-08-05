@@ -25,17 +25,28 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
   You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
   
-  •  Your custom messages set (without greating, the greating is included in the code!) 
+  •  Your custom messages set (without greating, the greating is included in the code!): 
+
   `linkedin-invitation-0.txt`
+
   `linkedin-invitation-1.txt`
+
   `linkedin-invitation-2.txt`
+
   `linkedin-invitation-3.txt`
+
   `linkedin-invitation-4.txt`
+
   `linkedin-invitation-5.txt`
+
   `linkedin-invitation-6.txt`
+
   `linkedin-invitation-7.txt`
+
   `linkedin-invitation-8.txt`
+
   `linkedin-invitation-9.txt`
+
   `linkedin-invitation-10.txt`
     
 ### Install Python:
