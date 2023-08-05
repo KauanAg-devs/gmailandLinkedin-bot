@@ -25,7 +25,7 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
   You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
   
-  •  Your custom messages set (without greating, the greating is included in the code!): 
+  •  Your custom messages set (without greating, the greating is included in the code!). Include as many different messages as reasonably possible to minimize LinkedIn automation detection: 
 
   `linkedin-invitation-0.txt`
 
