@@ -34,8 +34,9 @@ driver = webdriver.Edge(service=my_service, options=options)
 action = ActionChains(driver)
 wait = WebDriverWait(driver,s)
 
+number_of_messages = 3
 message = []
-for i in range(11): #the number of messages in the directory, currently from 0 to 10
+for i in range(number_of_messages): #the number of messages in the directory, currently from 0 to 10
     text_file = open("linkedin-invitation-"+str(i)+".txt", "r")
     message.append(text_file.read())
     text_file.close()
@@ -78,7 +79,7 @@ def connect(name):
         action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Add a note"]')))).perform()
         
         #store the person's name and attach to the random message to reduce automation detection:
-        personalized_message = "Dear " + name + "\n" + message[randint(0,10)]
+        personalized_message = "Dear " + name + "\n" + message[randint(0,number_of_messages-1)]
         
         cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
         

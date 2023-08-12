@@ -1,6 +1,0 @@
-I'm Maxim Angel.
-I can modernize a PHP website from PHP 5.6 to PHP 8.2, 
-and update JavaScript external libraries via Node·js.
-I am also proficient with modern schema·org SEO. 
-Check my complete skill list:
-https://nakigoe.org/_PDF/CV-en.pdf
