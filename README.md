@@ -48,6 +48,10 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   `linkedin-invitation-9.txt`
 
   `linkedin-invitation-10.txt`
+
+  •  Your number of custom messages: 
+
+  `number_of_messages`
     
 ### Install Python:
 
