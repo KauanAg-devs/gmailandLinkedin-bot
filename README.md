@@ -33,22 +33,6 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
 
   `linkedin-invitation-2.txt`
 
-  `linkedin-invitation-3.txt`
-
-  `linkedin-invitation-4.txt`
-
-  `linkedin-invitation-5.txt`
-
-  `linkedin-invitation-6.txt`
-
-  `linkedin-invitation-7.txt`
-
-  `linkedin-invitation-8.txt`
-
-  `linkedin-invitation-9.txt`
-
-  `linkedin-invitation-10.txt`
-
   •  Your number of custom messages: 
 
   `number_of_messages`
