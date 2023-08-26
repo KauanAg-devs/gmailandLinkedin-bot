@@ -1,10 +1,3 @@
-'''
-Code is written by Maxim Angel, aka Nakigoe
-You can always find the newest version at https://github.com/nakigoe/linkedin-bot
-contact me for Python and C# lessons at nakigoetenshi@gmail.com
-$60 for 1 hour lesson
-Put stars and share!!!
-'''
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -18,47 +11,85 @@ from random import *
 import os
 os.system("cls") #clear screen from previous sessions
 import time
+import json # for cookies
+
+cookies_path = 'auth/cookies.json'
+local_storage_path = 'auth/local_storage.json'
+your_user_agent = "Super_Cool_User_Agent" # Replace with your desired user-agent STRING. You can find your current browser's user-agent by searching "What's my user-agent?" in a search engine
 
 options = webdriver.EdgeOptions()
 options.use_chromium = True
 options.add_argument("start-maximized")
-my_service=service.Service(r'msedgedriver.exe')
 options.page_load_strategy = 'eager' #do not wait for images to load
+options.add_argument("user-agent=" + your_user_agent) 
 options.add_experimental_option("detach", True)
-options.add_argument('--no-sandbox')
-#options.add_argument('--disable-dev-shm-usage') # uses disk instead of RAM, may be slow
 
 s = 20 #time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later»
 
-driver = webdriver.Edge(service=my_service, options=options)
+driver = webdriver.Edge(options=options)
 action = ActionChains(driver)
 wait = WebDriverWait(driver,s)
 
-number_of_messages = 3
+number_of_messages=4
 message = []
-for i in range(number_of_messages): #the number of messages in the directory, currently from 0 to 10
-    text_file = open("linkedin-invitation-"+str(i)+".txt", "r")
+for i in range(number_of_messages): #the number of messages in the directory
+    text_file = open("messages/linkedin-invitation-"+str(i)+".txt", "r")
     message.append(text_file.read())
     text_file.close()
 
 username = "nakigoetenshi@gmail.com"
 password = "Super_Mega_Password"
 login_page = "https://www.linkedin.com/login"
-search_link = "https://www.linkedin.com/in/nakigoe-angel/"
 
-weekly_limit=100 #increase up to Your current limit
+weekly_limit=200
 weekly_limit -=5 # just for the sake of safety, besides, You want to be able to add some connections by hand!
 weekly_counter = 0 #load from file!
 text_file = open("linkedin-weekly-counter.txt", "r")
 weekly_counter = int(text_file.readline())
 text_file.close()
 
+search_link = "https://www.linkedin.com/in/nakigoe-angel/" # replace
+
+def load_data_from_json(path): return json.load(open(path, 'r'))
+def save_data_to_json(data, path): json.dump(data, open(path, 'w'))
+
+def add_cookies(cookies): [driver.add_cookie(cookie) for cookie in cookies]
+def add_local_storage(local_storage): [driver.execute_script(f"window.localStorage.setItem('{k}', '{v}');") for k, v in local_storage.items()]
+
+def success(): return True if wait.until(EC.presence_of_element_located((By.XPATH, '//div[contains(@class,"global-nav__me")]'))) else False
+
+def navigate_and_check(search_link):
+    driver.get(search_link)
+    time.sleep(15)
+    if success(): # return True if you are loggged in successfully independent of saving new cookies
+        save_data_to_json(driver.get_cookies(), cookies_path)
+        save_data_to_json({key: driver.execute_script(f"return window.localStorage.getItem('{key}');") for key in driver.execute_script("return Object.keys(window.localStorage);")}, local_storage_path)
+        return True
+    else: 
+        return False
+   
 def login():
-    driver.get(login_page)
     wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="username"]'))).send_keys(username)
     wait.until(EC.element_to_be_clickable((By.XPATH, '//input[@id="password"]'))).send_keys(password)
     action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Sign in")]')))).perform()
-
+    time.sleep(15)
+    
+def check_cookies_and_login():
+    driver.get(login_page) # you have to open some page first before trying to load cookies!
+    time.sleep(3)
+    
+    if os.path.exists(cookies_path) and os.path.exists(local_storage_path):
+        add_cookies(load_data_from_json(cookies_path))
+        add_local_storage(load_data_from_json(local_storage_path))
+        
+        if navigate_and_check(search_link):
+            return # it is OK, you are logged in
+    
+    driver.get(login_page)
+    time.sleep(3)
+    login()
+    navigate_and_check(search_link)
+        
 def scroll_to_bottom(): 
     reached_page_end= False
     last_height = driver.execute_script("return document.body.scrollHeight")
@@ -124,7 +155,7 @@ def find_connect_buttons_and_people_names_and_perform_connect():
             got_it_button = driver.find_element(By.XPATH, '//button//span[contains(., "Got it")]')
             driver.execute_script("arguments[0].click();", got_it_button)
         except:
-            bla = "Ok"
+            pass
              
         if (weekly_counter<weekly_limit and connect(person_name) == 0): 
             weekly_counter +=1
@@ -136,11 +167,10 @@ def find_connect_buttons_and_people_names_and_perform_connect():
             print("You've reached Your weekly limit of "+ str(weekly_limit) +" connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
             driver.close()
             driver.quit()
-        
+                
 def main():
-    login()
-    time.sleep(15)
-    driver.get(search_link)
+    check_cookies_and_login()
+    
     action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
     time.sleep(15)
     hide_header_and_messenger()

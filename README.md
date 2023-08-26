@@ -3,6 +3,8 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
+<b>26 August 2023 major upgrade:</b> added `user agent`, `cookies` and `local storage` support to keep the login information from the last session and reduce LinkedIn automation detection.
+
 ## How To Use
 
 Screen resolution and width is rather important when it comes to LinkedIn.
@@ -15,6 +17,10 @@ There is a weekly limit of invitations that could be sent on LinkedIn, so, to re
 Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt` back to 0 every Monday! Just utilize any text editor and replace any value inside the file with `0`
 
 ### Change:
+  
+  •  Your browser information You usally use to browse LinkedIn (to reduce automation detection) `user_agent`
+   
+You can find your current browser's user-agent by searching ***"What's my user-agent?"*** in any search engine, it is just a string.
 
   •  The email to login on LinkedIn `username`
   
@@ -32,6 +38,8 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
   `linkedin-invitation-1.txt`
 
   `linkedin-invitation-2.txt`
+
+  `linkedin-invitation-3.txt`
 
   •  Your number of custom messages: 
 
@@ -105,3 +113,9 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
       https://nakigoe.org/_SRC/logo-hot-bevel-300.jpg 300w"
     alt="NAKIGOE.ORG">
 </a></h1>
+
+<p style="margin: 0 auto" align="center">© NAKIGOE.ORG</p> 
+
+<p style="margin: 0 auto" align="center">All rights reserved and no permissions are granted.</p>
+
+<p style="margin: 0 auto" align="center">Please add stars to the repositories!</p>
