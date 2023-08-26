@@ -1,3 +1,10 @@
+'''
+Code is written by Maxim Angel, aka Nakigoe
+You can always find the newest version at https://github.com/nakigoe/linkedin-endorse-bot
+contact me for Python and C# lessons at nakigoetenshi@gmail.com
+$60 for 1 hour lesson
+Place stars and share!!!
+'''
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
