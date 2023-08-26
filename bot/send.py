@@ -58,8 +58,8 @@ def add_local_storage(local_storage): [driver.execute_script(f"window.localStora
 
 def success(): return True if wait.until(EC.presence_of_element_located((By.XPATH, '//div[contains(@class,"global-nav__me")]'))) else False
 
-def navigate_and_check(search_link):
-    driver.get(search_link)
+def navigate_and_check(probe_page):
+    driver.get(probe_page)
     time.sleep(15)
     if success(): # return True if you are loggged in successfully independent of saving new cookies
         save_data_to_json(driver.get_cookies(), cookies_path)
