@@ -21,7 +21,7 @@ options = webdriver.EdgeOptions()
 options.use_chromium = True
 options.add_argument("start-maximized")
 options.page_load_strategy = 'eager' #do not wait for images to load
-options.add_argument("user-agent=" + user_agent) 
+options.add_argument(f"user-agent={user_agent}")
 options.add_experimental_option("detach", True)
 
 s = 20 #time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later»
