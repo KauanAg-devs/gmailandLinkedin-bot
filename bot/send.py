@@ -58,7 +58,7 @@ text_file.close()
 search_link = "https://www.linkedin.com/in/nakigoe-angel/" # replace
 
 def load_data_from_json(path): return json.load(open(path, 'r'))
-def save_data_to_json(data, path): json.dump(data, open(path, 'w'))
+def save_data_to_json(data, path): os.makedirs(os.path.dirname(path), exist_ok=True); json.dump(data, open(path, 'w'))
 
 def add_cookies(cookies): [driver.add_cookie(cookie) for cookie in cookies]
 def add_local_storage(local_storage): [driver.execute_script(f"window.localStorage.setItem('{k}', '{v}');") for k, v in local_storage.items()]
