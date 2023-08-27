@@ -3,7 +3,7 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
-<b>26 August 2023 major upgrade:</b> added `user agent`, `cookies` and `local storage` support to keep the login information from the last session and to reduce LinkedIn automation detection.
+<b>27 August 2023 major upgrade:</b> added `user agent`, `cookies` and `local storage` support to keep the login information from the last session and to reduce LinkedIn automation detection.
 
 ## How To Use
 
@@ -18,7 +18,7 @@ Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt
 
 ### Change:
   
-  •  Your browser information You usally use to browse LinkedIn (to reduce automation detection) `user_agent`
+  •  Your browser information You usually use to browse LinkedIn (to reduce automation detection) `user_agent`
    
 You can find your current browser's user-agent by searching ***"What's my user-agent?"*** in any search engine, it is just a string.
 
