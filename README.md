@@ -2,6 +2,7 @@
 A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
+<b>02 September major upgrade:</b> improved algorythm and functions, added custome search query support.
 
 <b>27 August 2023 major upgrade:</b> added `user agent`, `cookies` and `local storage` support to keep the login information from the last session and to reduce LinkedIn automation detection.
 
@@ -26,7 +27,9 @@ You can find your current browser's user-agent by searching ***"What's my user-a
   
   •  Your password `password`
   
-  •  A person on LinkedIn in whose connections You are interested `search_query`
+  •  A person on LinkedIn in whose connections You are interested `search_query`, in that case change `custom_query` to `""`
+  
+  • You can now enter Your own custom search query `custom_query`, just copy-paste from LinkedIn search URL (complete https://blablabla when you are at the LinkedIn search window)
   
   Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
   You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
