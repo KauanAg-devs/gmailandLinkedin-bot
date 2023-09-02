@@ -1,29 +1,30 @@
 '''
+2023-09-02 version, added custom search query, see custom_search string
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-endorse-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
 $60 for 1 hour lesson
-Place stars and share!!!
+Please place stars and share!!!
 '''
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver.edge import service
 from random import *
 import os
 os.system("cls") #clear screen from previous sessions
 import time
 import json # for cookies
 
+from enum import Enum # that one is for You, my dear reader, code readability from NAKIGOE.ORG
+class Status(Enum):
+    SUCCESS = 0
+    FAILURE = 1
+    
 cookies_path = 'auth/cookies.json'
 local_storage_path = 'auth/local_storage.json'
-user_agent = "Super_Cool_User_Agent" # Replace with your desired user-agent STRING. You can find your current browser's user-agent by searching "What's my user-agent?" in a search engine
-
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" # Replace with your desired user-agent string. You can find your current browser's user-agent by searching "What's my user-agent?" in a search engine
 options = webdriver.EdgeOptions()
 options.use_chromium = True
 options.add_argument("start-maximized")
@@ -31,11 +32,14 @@ options.page_load_strategy = 'eager' #do not wait for images to load
 options.add_argument(f"user-agent={user_agent}")
 options.add_experimental_option("detach", True)
 
-s = 20 #time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later»
-
+s = 20 # static standard time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later», decrease if You do not use VPN and have high-speed Internet connection
 driver = webdriver.Edge(options=options)
 action = ActionChains(driver)
 wait = WebDriverWait(driver,s)
+
+def custom_wait(driver, timeout, condition_type, locator_tuple):
+    wait = WebDriverWait(driver, timeout)
+    return wait.until(condition_type(locator_tuple))
 
 number_of_messages=4
 message = []
@@ -45,7 +49,7 @@ for i in range(number_of_messages): #the number of messages in the directory
     text_file.close()
 
 username = "nakigoetenshi@gmail.com"
-password = "Super_Mega_Password"
+password = "Super Mega Password"
 login_page = "https://www.linkedin.com/login"
 
 weekly_limit=200
@@ -55,7 +59,45 @@ text_file = open("linkedin-weekly-counter.txt", "r")
 weekly_counter = int(text_file.readline())
 text_file.close()
 
-search_link = "https://www.linkedin.com/in/nakigoe-angel/" # replace
+search_link = "https://www.linkedin.com/in/nakigoe-angel/" # change
+
+custom_search = r"https://www.linkedin.com/search/results/people/?keywords=switzerland%20ceo%20zurich%20international&network=%5B%22S%22%5D&origin=GLOBAL_SEARCH_HEADER&sid=vqx" # change
+
+if custom_search != "": search_link = custom_search # if you want a custom random search instead of connecting to you friend's friends
+
+def set_value_with_event(element, value):
+    # Click to focus
+    action = ActionChains(driver)
+    action.move_to_element(element).click().perform()
+    
+    # Clear the existing value
+    driver.execute_script("arguments[0].value = '';", element)
+    
+    # Use JavaScript to simulate human typing
+    driver.execute_script("""
+    var setValue = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set;
+    var element = arguments[0];
+    var value = arguments[1];
+    
+    setValue.call(element, value);
+    
+    var event = new Event('input', { bubbles: true });
+    element.dispatchEvent(event);
+    """, element, value)
+
+def click_and_wait(element, delay=1):
+    action.move_to_element(element).click().perform()
+    time.sleep(delay)
+      
+def scroll_to_bottom(delay=2):
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    while True:
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        time.sleep(delay)
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if last_height == new_height:
+            break
+        last_height = new_height
 
 def load_data_from_json(path): return json.load(open(path, 'r'))
 def save_data_to_json(data, path): os.makedirs(os.path.dirname(path), exist_ok=True); json.dump(data, open(path, 'w'))
@@ -96,44 +138,47 @@ def check_cookies_and_login():
     time.sleep(3)
     login()
     navigate_and_check(search_link)
-        
-def scroll_to_bottom(): 
-    reached_page_end= False
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    
-    #expand the skills list:
-    while not reached_page_end:
-        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
-        time.sleep(2)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        if last_height == new_height:
-            reached_page_end = True
-        else:
-            last_height = new_height
             
 def connect(name):
     try:
-        #add note button:      
-        action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Add a note"]')))).perform()
+        try: # If LinkedIn is asking for an email which no one has, exit immediately! 
+            email_demand = custom_wait(driver, 3, EC.presence_of_element_located, (By.XPATH, '//label[@for="email"]'))
+            close_button = custom_wait(driver, 3, EC.element_to_be_clickable, (By.XPATH, '//button[@aria-label="Dismiss"]'))
+            click_and_wait(close_button,0)
+        except:
+            pass
+        
+        try: # add a note button:
+            add_a_note_button = custom_wait(driver, 5, EC.element_to_be_clickable, (By.XPATH, '//button[@aria-label="Add a note"]'))
+            click_and_wait(add_a_note_button,0)
+        except:
+            pass #there are sometimes popups without THAT button
+        
+        try:
+            cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
+        except:
+            return Status.FAILURE # if there is neither a button or a text area for a message, exit immediatly!
         
         #store the person's name and attach to the random message to reduce automation detection:
-        personalized_message = "Dear " + name + "\n" + message[randint(0,number_of_messages-1)]
+        personalized_message = "Dear " + name + "\n" + message[randint(0,number_of_messages-1)]        
         
-        cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
+        # cover_letter_text.send_keys(personalized_message) # a standard but slow way
         
-        cover_letter_text.send_keys(personalized_message) 
+        set_value_with_event(cover_letter_text, personalized_message)
+        
         send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))
-        action.move_to_element(send_button).perform()
-        time.sleep(0.5)
         action.click(send_button).perform()
-        time.sleep(1)
-        return 0 #OK, sent
-    except TimeoutException:
-        return 1           
-    except StaleElementReferenceException:
-        return 1
+        
+        # close the irritating popup "You are growing your network", "You are approaching to the weekly limit", etc.
+        try:
+            got_it_button = custom_wait(driver, 2, EC.presence_of_element_located, (By.XPATH, '//button//span[contains(., "Got it")]'))
+            click_and_wait(got_it_button,0)
+        except:
+            pass
+        
+        return Status.SUCCESS # OK, sent
     except:
-        return 1
+        return Status.FAILURE
 
 def hide_header_and_messenger():    
     hide_header = wait.until(EC.presence_of_element_located((By.XPATH, '//header[@id="global-nav"]')))
@@ -147,28 +192,28 @@ def hide_header_and_messenger():
 
 def find_connect_buttons_and_people_names_and_perform_connect():
     global weekly_counter
-    hide_header_and_messenger()
     scroll_to_bottom()
-    time.sleep(1)
-    connect_buttons = driver.find_elements(By.XPATH, '//button//span[contains(., "Connect")]')
+    time.sleep(1) #wait for the dynamic page to load
+    
+    try:
+        connect_buttons = custom_wait(driver, 3, EC.presence_of_all_elements_located, (By.XPATH, '//button//span[contains(., "Connect")]'))
+    except:
+        return # That is a temporary solution if You target only those who have the "Connect" button
+    
+    hide_header_and_messenger()
     for connect_button in connect_buttons:
         person = connect_button.find_element(By.XPATH, './/ancestor::div[@class="entity-result__item"]')
         person_name = person.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
-        action.move_to_element(connect_button).perform()
-        time.sleep(1)
-        driver.execute_script("arguments[0].click();", connect_button)
-        time.sleep(1)
-        try:
-            got_it_button = driver.find_element(By.XPATH, '//button//span[contains(., "Got it")]')
-            driver.execute_script("arguments[0].click();", got_it_button)
-        except:
-            pass
-             
-        if (weekly_counter<weekly_limit and connect(person_name) == 0): 
-            weekly_counter +=1
-            with open('linkedin-weekly-counter.txt', 'w') as a:
-                a.writelines(str(weekly_counter))
-            time.sleep(randint(1, 10)) # to reduce LinkedIn automation detection
+        click_and_wait(connect_button,0.5)
+        
+        if (weekly_counter<weekly_limit):
+            sts = connect(person_name)  # the MAIN part is in this function!
+            if sts == Status.FAILURE: continue
+            elif sts == Status.SUCCESS:
+                weekly_counter +=1
+                with open('linkedin-weekly-counter.txt', 'w') as a:
+                    a.writelines(str(weekly_counter))
+                time.sleep(randint(1, 3)) # to reduce LinkedIn automation detection
         elif(weekly_counter>=weekly_limit): # to reduce LinkedIn automation detection
             os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
             print("You've reached Your weekly limit of "+ str(weekly_limit) +" connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
@@ -178,17 +223,17 @@ def find_connect_buttons_and_people_names_and_perform_connect():
 def main():
     check_cookies_and_login()
     
-    action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
-    time.sleep(15)
+    if not custom_search: # that is, if you want to connect to the friend's friends, not the random custom search results
+        action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
+        time.sleep(15)
+    
     hide_header_and_messenger()
     while True:
         try:
             scroll_to_bottom()
             time.sleep(5)
             test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="entity-result__item"]')))
-        except TimeoutException:
-            break
-        except StaleElementReferenceException:
+        except:
             break
         if test_results_presence:
             #insert open «Follow» page function call here (if you write it)
@@ -201,9 +246,7 @@ def main():
             action.move_to_element(next_page_button).perform()
             time.sleep(0.5)
             action.click(next_page_button).perform()
-        except TimeoutException:
-            break
-        except StaleElementReferenceException:
+        except:
             break
 
     # Close the only tab, will also close the browser.
