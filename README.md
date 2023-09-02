@@ -33,7 +33,7 @@ You can find your current browser's user-agent by searching ***"What's my user-a
   Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
   You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
   
-  • You can now enter Your own custom search query `custom_query`, just copy-paste from LinkedIn search URL (complete https://blablabla when you are at the LinkedIn search window)
+  • You can now enter Your own custom search query `custom_query`, just copy&#8209;paste from LinkedIn search URL (complete `https:// blablabla` when you are at the LinkedIn search window)
   
   •  Your custom messages set (without greating, the greating is included in the code!). Include as many different messages as reasonably possible to minimize LinkedIn automation detection: 
 
