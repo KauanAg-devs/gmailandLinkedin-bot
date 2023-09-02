@@ -3,7 +3,7 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
-<b>02 September major upgrade:</b> improved algorythm and functions, added custome search query support.
+<b>02 September major upgrade:</b> improved algorythm and functions, added custom search query support.
 
 <b>27 August 2023 major upgrade:</b> added `user agent`, `cookies` and `local storage` support to keep the login information from the last session and to reduce LinkedIn automation detection.
 
