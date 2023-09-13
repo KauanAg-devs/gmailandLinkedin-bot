@@ -105,8 +105,13 @@ def save_data_to_json(data, path): os.makedirs(os.path.dirname(path), exist_ok=T
 def add_cookies(cookies): [driver.add_cookie(cookie) for cookie in cookies]
 def add_local_storage(local_storage): [driver.execute_script(f"window.localStorage.setItem('{k}', '{v}');") for k, v in local_storage.items()]
 
-def success(): return True if wait.until(EC.presence_of_element_located((By.XPATH, '//div[contains(@class,"global-nav__me")]'))) else False
-
+def success():
+    try:
+        custom_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]'))
+        return True
+    except:
+        return False
+    
 def navigate_and_check(probe_page):
     driver.get(probe_page)
     time.sleep(15)
