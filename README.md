@@ -3,6 +3,10 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
+<b>24 September 2023 upgrade:</b>
+
+  •  if a message recepeient's name is too long, shortens it to fit the LinkedIn limit of 300 characters per message. 
+
 <b>13 September 2023 major upgrade:</b>
 
   •  correct successful login indicator

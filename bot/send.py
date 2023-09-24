@@ -63,7 +63,7 @@ search_link = "https://www.linkedin.com/in/nakigoe-angel/" # change
 
 custom_search = r"https://www.linkedin.com/search/results/people/?keywords=switzerland%20ceo%20zurich%20international&network=%5B%22S%22%5D&origin=GLOBAL_SEARCH_HEADER&sid=vqx" # change
 
-if custom_search != "": search_link = custom_search # if you want a custom random search instead of connecting to you friend's friends
+if custom_search != "": search_link = custom_search
 
 def set_value_with_event(element, value):
     # Click to focus
@@ -111,7 +111,7 @@ def success():
         return True
     except:
         return False
-    
+
 def navigate_and_check(probe_page):
     driver.get(probe_page)
     time.sleep(15)
@@ -143,6 +143,25 @@ def check_cookies_and_login():
     time.sleep(3)
     login()
     navigate_and_check(search_link)
+    
+def truncate_name(name, max_length):
+    if len(name) <= max_length:
+        return name
+    
+    truncated = []
+    remaining_length = max_length - 1  # -1 to reserve space for the ellipsis
+    
+    for word in name.split():
+        if remaining_length - len(word) >= 0:
+            truncated.append(word)
+            remaining_length -= len(word) + 1  # +1 for the space or comma
+        else:
+            break
+    
+    if not truncated:  # The first name itself is too long
+        return name[:max_length - 1] + "…"
+
+    return " ".join(truncated) + "…"
             
 def connect(name):
     try:
@@ -160,16 +179,21 @@ def connect(name):
             pass #there are sometimes popups without THAT button
         
         try:
-            cover_letter_text = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
+            cover_letter_textarea = wait.until(EC.element_to_be_clickable((By.XPATH, '//textarea[@id="custom-message"]')))
         except:
             return Status.FAILURE # if there is neither a button or a text area for a message, exit immediatly!
         
+        message_text = message[random.randint(0,number_of_messages-1)]
+        
+        # sometimes a person name is too long, rectify it with delimeters spaces, commas, etc:
+        cleaned_name = truncate_name(name, 300 - len(message_text) - len("Dear ,\n")) # 300 is the current LinkedIn limit for the connect message
+        
         #store the person's name and attach to the random message to reduce automation detection:
-        personalized_message = "Dear " + name + "\n" + message[randint(0,number_of_messages-1)]        
+        personalized_message = f"Dear {cleaned_name},\n{message_text}"
         
-        # cover_letter_text.send_keys(personalized_message) # a standard but slow way
+        print(f"Length of the personalized_message: {len(personalized_message)}") #this is for debug
         
-        set_value_with_event(cover_letter_text, personalized_message)
+        set_value_with_event(cover_letter_textarea, personalized_message)
         
         send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))
         action.click(send_button).perform()
@@ -218,7 +242,7 @@ def find_connect_buttons_and_people_names_and_perform_connect():
                 weekly_counter +=1
                 with open('linkedin-weekly-counter.txt', 'w') as a:
                     a.writelines(str(weekly_counter))
-                time.sleep(randint(1, 3)) # to reduce LinkedIn automation detection
+                time.sleep(random.uniform(0.2, 2)) # to reduce LinkedIn automation detection
         elif(weekly_counter>=weekly_limit): # to reduce LinkedIn automation detection
             os.system("cls") #clear screen from unnecessary logs since the operation has completed successfully
             print("You've reached Your weekly limit of "+ str(weekly_limit) +" connection requests. Stop before LinkedIn blocks You! \n \nSincerely Yours, \nNAKIGOE.ORG\n")
