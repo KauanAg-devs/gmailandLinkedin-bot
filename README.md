@@ -1,15 +1,16 @@
 # Connect with People on LinkedIn, Send a Custom Message with Person's Name Automatically!
+
 A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
 <b>24 September 2023 upgrade:</b>
 
-  •  if a message recepeient's name is too long, shortens it to fit the LinkedIn limit of 300 characters per message. 
+• if a message recepeient's name is too long, shortens it to fit the LinkedIn limit of 300 characters per message.
 
 <b>13 September 2023 major upgrade:</b>
 
-  •  correct successful login indicator
+• correct successful login indicator
 
 <b>02 September 2023 major upgrade:</b> improved algorithm and functions, added `custom_search` query support.
 
@@ -17,8 +18,14 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 ## How To Use
 
+The script has been written and tested many times for use with the **_Microsoft Edge_** browser. Sometimes installing the **LATEST VERSION** of **_Microsoft Edge_** on your device is required for the correct operation of this automation software.
+
+Sometimes you need to manually download `msedgedriver.exe` from the Microsoft website: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+
+Enter the path to the downloaded `msedgedriver.exe` into `system variables`.
+
 Screen resolution and width is rather important when it comes to LinkedIn.
-<br> The script is tested on 1280px and 1366px screen width resolutions.  It is working!
+<br> The script is tested on 1280px and 1366px screen width resolutions. It is working!
 
 ### Change Weekly:
 
@@ -27,51 +34,51 @@ There is a weekly limit of invitations that could be sent on LinkedIn, so, to re
 Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt` back to 0 every Monday! Just utilize any text editor and replace any value inside the file with `0`
 
 ### Change:
-  
-  •  Your browser information You usually use to browse LinkedIn (to reduce automation detection) `user_agent`
-   
-You can find your current browser's user-agent by searching ***"What's my user-agent?"*** in any search engine, it is just a string.
 
-  •  The email to login on LinkedIn `username`
-  
-  •  Your password `password`
-  
-  •  A person on LinkedIn in whose connections You are interested `search_query`, in that case change `custom_query` to `""`
-  
-  Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
-  You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
-  
-  • You can now enter Your own custom search query `custom_query`, just copy&#8209;paste from LinkedIn search URL (the&nbsp;complete `https:// blablabla` when you are at the LinkedIn search window)
-  
-  •  Your custom messages set (without greating, the greating is included in the code!). Include as many different messages as reasonably possible to minimize LinkedIn automation detection: 
+• Your browser information You usually use to browse LinkedIn (to reduce automation detection) `user_agent`
 
-  `linkedin-invitation-0.txt`
+You can find your current browser's user-agent by searching **_"What's my user-agent?"_** in any search engine, it is just a string.
 
-  `linkedin-invitation-1.txt`
+• The email to login on LinkedIn `username`
 
-  `linkedin-invitation-2.txt`
+• Your password `password`
 
-  `linkedin-invitation-3.txt`
+• A person on LinkedIn in whose connections You are interested `search_query`, in that case change `custom_query` to `""`
 
-  •  Your number of custom messages: 
+Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
+You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
 
-  `number_of_messages`
-    
+• You can now enter Your own custom search query `custom_query`, just copy&#8209;paste from LinkedIn search URL (the&nbsp;complete `https:// blablabla` when you are at the LinkedIn search window)
+
+• Your custom messages set (without greating, the greating is included in the code!). Include as many different messages as reasonably possible to minimize LinkedIn automation detection:
+
+`linkedin-invitation-0.txt`
+
+`linkedin-invitation-1.txt`
+
+`linkedin-invitation-2.txt`
+
+`linkedin-invitation-3.txt`
+
+• Your number of custom messages:
+
+`number_of_messages`
+
 ### Install Python:
 
-  •  https://www.python.org/downloads/
+• https://www.python.org/downloads/
 
 ### Install PIP If it Has Not been Installed With Python Automatically:
 
-  •  https://pip.pypa.io/en/stable/installation/
+• https://pip.pypa.io/en/stable/installation/
 
 ### Install Libraries (please open the command line interface):
 
-  •  Selenium `pip install selenium`
+• Selenium `pip install selenium`
 
 ### Start Connecting with People on LinkedIn!
 
-  •  double-click on `start.bat`
+• double-click on `start.bat`
 
 The fresh version is always here: https://github.com/nakigoe/linkedin-bot
 <br> Please write if You would like programming lessons: nakigoetenshi@gmail.com
@@ -126,7 +133,7 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
     alt="NAKIGOE.ORG">
 </a></h1>
 
-<p style="margin: 0 auto" align="center">© NAKIGOE.ORG</p> 
+<p style="margin: 0 auto" align="center">© NAKIGOE.ORG</p>
 
 <p style="margin: 0 auto" align="center">All rights reserved and no permissions are granted.</p>
 
