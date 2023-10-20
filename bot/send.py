@@ -22,8 +22,8 @@ class Status(Enum):
     SUCCESS = 0
     FAILURE = 1
     
-cookies_path = 'auth/cookies.json'
-local_storage_path = 'auth/local_storage.json'
+COOKIES_PATH = 'auth/cookies.json'
+LOCAL_STORAGE_PATH = 'auth/local_storage.json'
 user_agent = "My Standard Browser and Standard Device" # Replace with your desired user-agent string. You can find your current browser's user-agent by searching "What's my user-agent?" in a search engine
 options = webdriver.EdgeOptions()
 options.use_chromium = True
@@ -105,6 +105,15 @@ def save_data_to_json(data, path): os.makedirs(os.path.dirname(path), exist_ok=T
 def add_cookies(cookies): [driver.add_cookie(cookie) for cookie in cookies]
 def add_local_storage(local_storage): [driver.execute_script(f"window.localStorage.setItem('{k}', '{v}');") for k, v in local_storage.items()]
 
+def get_first_folder(path): return os.path.normpath(path).split(os.sep)[0] # for this to work, keep the cookies and localstorage in the same folder!
+
+def delete_folder(folder_path):
+    if os.path.exists(folder_path):
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            delete_folder(file_path) if os.path.isdir(file_path) else os.remove(file_path)
+        os.rmdir(folder_path)
+        
 def success():
     try:
         custom_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]'))
@@ -116,8 +125,8 @@ def navigate_and_check(probe_page):
     driver.get(probe_page)
     time.sleep(15)
     if success(): # return True if you are loggged in successfully independent of saving new cookies
-        save_data_to_json(driver.get_cookies(), cookies_path)
-        save_data_to_json({key: driver.execute_script(f"return window.localStorage.getItem('{key}');") for key in driver.execute_script("return Object.keys(window.localStorage);")}, local_storage_path)
+        save_data_to_json(driver.get_cookies(), COOKIES_PATH)
+        save_data_to_json({key: driver.execute_script(f"return window.localStorage.getItem('{key}');") for key in driver.execute_script("return Object.keys(window.localStorage);")}, LOCAL_STORAGE_PATH)
         return True
     else: 
         return False
@@ -132,12 +141,14 @@ def check_cookies_and_login():
     driver.get(login_page) # you have to open some page first before trying to load cookies!
     time.sleep(3)
     
-    if os.path.exists(cookies_path) and os.path.exists(local_storage_path):
-        add_cookies(load_data_from_json(cookies_path))
-        add_local_storage(load_data_from_json(local_storage_path))
+    if os.path.exists(COOKIES_PATH) and os.path.exists(LOCAL_STORAGE_PATH):
+        add_cookies(load_data_from_json(COOKIES_PATH))
+        add_local_storage(load_data_from_json(LOCAL_STORAGE_PATH))
         
         if navigate_and_check(search_link):
             return # it is OK, you are logged in
+        else: # cookies outdated, delete them
+            delete_folder(get_first_folder(COOKIES_PATH)) # please keep the cookies.json and local_storage.json in the same folder to clear them successfully (or delete the outdated session files manually)
     
     driver.get(login_page)
     time.sleep(3)
