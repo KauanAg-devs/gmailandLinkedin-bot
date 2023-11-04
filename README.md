@@ -90,6 +90,10 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
 <br> Please write if You would like programming lessons: nakigoetenshi@gmail.com
 <br> $60 per hour
 
+⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
+
+💲💲 Donate to the student to fund a study abroad and a new laptop: https://nakigoe.org/en/donate
+
 <h2 style="margin: 0 auto" align="center">Put stars on GitHub and share!!!</h2>
 <br>
 <p style="margin: 0 auto" align="center">Please cast an eye on my website:</p>
