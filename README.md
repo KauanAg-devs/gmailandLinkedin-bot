@@ -4,6 +4,14 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
+If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
+
+⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
+
+<b>31 December 2023 update:</b>
+
+• LinkedIn constantly updates selectors, so the code is updated.
+
 <b>20 October 2023 upgrade:</b>
 
 • outdated `cookie` files with entire `auth` folder are deleted automatically, and a standard login procedure with a username and password starts;
@@ -89,10 +97,6 @@ You have to find a person who allowed his / her contacts to be browsed. The link
 The fresh version is always here: https://github.com/nakigoe/linkedin-bot
 <br> Please write if You would like programming lessons: nakigoetenshi@gmail.com
 <br> $60 per hour
-
-⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
-
-💲💲 Donate to the student to fund a study abroad and a new laptop: https://nakigoe.org/en/donate
 
 <h2 style="margin: 0 auto" align="center">Put stars on GitHub and share!!!</h2>
 <br>

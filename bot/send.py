@@ -272,7 +272,7 @@ def main():
         try:
             scroll_to_bottom()
             time.sleep(5)
-            test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="entity-result__item"]')))
+            test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@data-view-name="search-entity-result-universal-template"]')))
         except:
             break
         if test_results_presence:
