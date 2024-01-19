@@ -8,7 +8,10 @@ LinkedIn constantly updates its pages elements' selectors. If You would like to 
 
 The project needs funding, planned features:
 •  separating basic documentation and setup instructions;
-•  separating code into 3 parts: script logic, moving assistant functions into PyPI package, separate file with settings;
+•  separating code into 3 parts: 
+     1) script logic, 
+     2) moving assistant functions into PyPI package, 
+     3) adding a separate file with settings;
 •  composite queries by words coming in as JSON format instead of URLs.
 
 inquiries: https://t.me/nakigoe
