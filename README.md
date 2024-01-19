@@ -7,9 +7,9 @@ A Python Selenium bot to automate connection with people on LinkedIn
 LinkedIn constantly updates its pages elements' selectors. If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
 
 The project needs funding, planned features:
-•  separating basic documention and setup instructions;
+•  separating basic documentation and setup instructions;
 •  separating code into 3 parts: script logic, moving assistant functions into PyPI package, separate file with settings;
-•  
+•  composite queries by words coming in as JSON format instead of URLs.
 
 inquiries: https://t.me/nakigoe
 
