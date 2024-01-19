@@ -4,13 +4,22 @@ A Python Selenium bot to automate connection with people on LinkedIn
 
 <b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
-If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
+LinkedIn constantly updates its pages elements' selectors. If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
+
+The project needs funding, planned features:
+•  separating basic documention and setup instructions;
+•  separating code into 3 parts: script logic, moving assistant functions into PyPI package, separate file with settings;
+•  
+
+inquiries: https://t.me/nakigoe
 
 ⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
 
-<b>31 December 2023 update:</b>
+<b>19 January 2024 update:</b>
 
-• LinkedIn constantly updates selectors, so the code is updated.
+Multi-search feature added: 
+•  You can now add multiple people from your contacts, whom contacts you want to connect to;
+•  You can now add multiple search queries (URLs from the Linkedin Search) as an array of links of any length. Important in cases where a specific query produces short list of results and you have to perform the same search in very specific locations.
 
 <b>20 October 2023 upgrade:</b>
 

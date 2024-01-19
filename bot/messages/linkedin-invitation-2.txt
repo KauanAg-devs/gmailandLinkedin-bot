@@ -1,6 +1,5 @@
 I'm Maxim Angel.
-I love Maths, Economics, Policy Analysis, and Cybersecurity.
-I speak and write English, Russian, Tajik, Mandarin, Japanese, and
-fancy Photoshop, C# web-programming, and GPU-optimized CSS animations.
+I fancy Photoshop, generative AI, story writing, web-programming, and GPU-optimized CSS animations.
+I speak and write English, Russian, Tajik, Japanese, and Mandarin Chinese.
 Learn more about me: 
 https://nakigoe.org

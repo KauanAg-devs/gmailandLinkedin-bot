@@ -1,8 +1,9 @@
 '''
-2023-09-02 version, added custom search query, see custom_search string
+2024-01-19 version, added multi-search by array of links, either search the contacts of multiple people or search the results of multiple custom searches: now in one go! 
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-endorse-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
+Telegam: t.me/nakigoe
 $60 for 1 hour lesson
 Please place stars and share!!!
 '''
@@ -11,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from random import *
+import random
 import os
 os.system("cls") #clear screen from previous sessions
 import time
@@ -41,7 +42,7 @@ def custom_wait(driver, timeout, condition_type, locator_tuple):
     wait = WebDriverWait(driver, timeout)
     return wait.until(condition_type(locator_tuple))
 
-number_of_messages=4
+number_of_messages=5
 message = []
 for i in range(number_of_messages): #the number of messages in the directory
     text_file = open("messages/linkedin-invitation-"+str(i)+".txt", "r")
@@ -59,11 +60,18 @@ text_file = open("linkedin-weekly-counter.txt", "r")
 weekly_counter = int(text_file.readline())
 text_file.close()
 
-search_link = "https://www.linkedin.com/in/nakigoe-angel/" # change
+search_links_array = [] # these are just examples, you have top pick people from your contacts, who allowed to browse their contacts!!!
+search_links_array.append("https://www.linkedin.com/in/barbara-stampf-81610029/") # Europe
+search_links_array.append("https://www.linkedin.com/in/marlene-helml-9789681b9/") # Austrian lawyer
+search_links_array.append("https://www.linkedin.com/in/mirko-serri-53ba085/") # Unicredit
+search_links_array.append("https://www.linkedin.com/in/gerhard-heinz/") # somebody Austria international
 
-custom_search = r"https://www.linkedin.com/search/results/people/?keywords=switzerland%20ceo%20zurich%20international&network=%5B%22S%22%5D&origin=GLOBAL_SEARCH_HEADER&sid=vqx" # change
+custom_search_array = [] # copy and paste search urls from LinkedIn search results here:
+custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=AI%20switzerland&network=%5B%22S%22%5D&sid=EN.")
+custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=Cybersecurity%20Switzerland&network=%5B%22S%22%5D&sid=O0t")
+custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=Mandarin%20Chinese%20Switzerland&network=%5B%22S%22%5Dsid=m%2C6")
 
-if custom_search != "": search_link = custom_search
+links = custom_search_array if custom_search_array else search_links_array
 
 def set_value_with_event(element, value):
     # Click to focus
@@ -113,7 +121,7 @@ def delete_folder(folder_path):
             file_path = os.path.join(folder_path, filename)
             delete_folder(file_path) if os.path.isdir(file_path) else os.remove(file_path)
         os.rmdir(folder_path)
-        
+
 def success():
     try:
         custom_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]'))
@@ -145,7 +153,7 @@ def check_cookies_and_login():
         add_cookies(load_data_from_json(COOKIES_PATH))
         add_local_storage(load_data_from_json(LOCAL_STORAGE_PATH))
         
-        if navigate_and_check(search_link):
+        if navigate_and_check(links[0]): # just pick a first link to check if the cookies are OK
             return # it is OK, you are logged in
         else: # cookies outdated, delete them
             delete_folder(get_first_folder(COOKIES_PATH)) # please keep the cookies.json and local_storage.json in the same folder to clear them successfully (or delete the outdated session files manually)
@@ -153,7 +161,7 @@ def check_cookies_and_login():
     driver.get(login_page)
     time.sleep(3)
     login()
-    navigate_and_check(search_link)
+    navigate_and_check(links[0])
     
 def truncate_name(name, max_length):
     if len(name) <= max_length:
@@ -233,7 +241,7 @@ def hide_header_and_messenger():
 def find_connect_buttons_and_people_names_and_perform_connect():
     global weekly_counter
     scroll_to_bottom()
-    time.sleep(1) #wait for the dynamic page to load
+    time.sleep(3) #wait for the dynamic page to load
     
     try:
         connect_buttons = custom_wait(driver, 3, EC.presence_of_all_elements_located, (By.XPATH, '//button//span[contains(., "Connect")]'))
@@ -242,8 +250,8 @@ def find_connect_buttons_and_people_names_and_perform_connect():
     
     hide_header_and_messenger()
     for connect_button in connect_buttons:
-        person = connect_button.find_element(By.XPATH, './/ancestor::div[@class="entity-result__item"]')
-        person_name = person.find_element(By.XPATH, './/span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
+        person = connect_button.find_element(By.XPATH, './/ancestor::li[@class="reusable-search__result-container"]')
+        person_name = person.find_element(By.XPATH, './/span[@dir="ltr"]//span[@aria-hidden="true"]').get_attribute('innerHTML').strip("\n <!---->")
         click_and_wait(connect_button,0.5)
         
         if (weekly_counter<weekly_limit):
@@ -263,31 +271,36 @@ def find_connect_buttons_and_people_names_and_perform_connect():
 def main():
     check_cookies_and_login()
     
-    if not custom_search: # that is, if you want to connect to the friend's friends, not the random custom search results
-        action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
-        time.sleep(15)
-    
-    hide_header_and_messenger()
-    while True:
-        try:
-            scroll_to_bottom()
-            time.sleep(5)
-            test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@data-view-name="search-entity-result-universal-template"]')))
-        except:
-            break
-        if test_results_presence:
-            #insert open «Follow» page function call here (if you write it)
-                     
-            #direct connect with the person's name included:
-            find_connect_buttons_and_people_names_and_perform_connect()
-        try:
-            scroll_to_bottom()
-            next_page_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))
-            action.move_to_element(next_page_button).perform()
-            time.sleep(0.5)
-            action.click(next_page_button).perform()
-        except:
-            break
+    for i, link in enumerate(links): 
+        if i > 0: #fist link is already opened
+            driver.get(link)
+            time.sleep(15)
+            
+        if not custom_search_array: # that is, if you want to connect to the friend's friends, not the random custom search results
+            action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//section[@class="artdeco-card ember-view pv-top-card"]//a[@class="ember-view"]')))).perform()
+            time.sleep(15)
+        
+        hide_header_and_messenger()
+        while True:
+            try:
+                scroll_to_bottom()
+                time.sleep(3)
+                test_results_presence = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@data-view-name="search-entity-result-universal-template"]')))
+            except:
+                break
+            if test_results_presence:
+                #insert open «Follow» page function call here (if you write it)
+                        
+                #direct connect with the person's name included:
+                find_connect_buttons_and_people_names_and_perform_connect()
+            try:
+                scroll_to_bottom()
+                next_page_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))
+                action.move_to_element(next_page_button).perform()
+                time.sleep(0.5)
+                action.click(next_page_button).perform()
+            except:
+                break
 
     # Close the only tab, will also close the browser.
     driver.close()
