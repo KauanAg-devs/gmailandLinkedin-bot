@@ -1,5 +1,5 @@
 '''
-2024-01-19 version, added multi-search by array of links, either search the contacts of multiple people or search the results of multiple custom searches: now in one go! 
+2024-01-24 version, added multi-search by arrays of locations and occupations, either search the contacts of multiple people or search the results of multiple custom searches: now in one go! 
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-endorse-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
@@ -66,10 +66,21 @@ search_links_array.append("https://www.linkedin.com/in/marlene-helml-9789681b9/"
 search_links_array.append("https://www.linkedin.com/in/mirko-serri-53ba085/") # Unicredit
 search_links_array.append("https://www.linkedin.com/in/gerhard-heinz/") # somebody Austria international
 
-custom_search_array = [] # copy and paste search urls from LinkedIn search results here:
-custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=AI%20switzerland&network=%5B%22S%22%5D&sid=EN.")
-custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=Cybersecurity%20Switzerland&network=%5B%22S%22%5D&sid=O0t")
-custom_search_array.append(r"https://www.linkedin.com/search/results/people/?keywords=Mandarin%20Chinese%20Switzerland&network=%5B%22S%22%5Dsid=m%2C6")
+# Define the list of locations without duplicates
+uk_locations = ['London', 'Glasgow', 'Manchester', 'Birmingham', 'Bristol', 'Edinburgh', 'Leeds', 'Liverpool', 'Newcastle', 'Nottingham', 'Sheffield', 'Belfast', 'Brighton', 'Cardiff', 'Leicester', 'Bournemouth', 'Cambridge', 'Oxford', 'Reading', 'York', 'Aberdeen', 'Bath', 'Belfast', 'Birmingham', 'Bradford', 'Brighton', 'Bristol', 'Cambridge', 'Canterbury', 'Cardiff', 'Carlisle', 'Chester', 'Chichester', 'Coventry', 'Derby', 'Durham', 'Ely', 'Exeter', 'Gloucester', 'Hereford', 'Kingston upon Hull', 'Lancaster', 'Leeds', 'Leicester', 'Lichfield', 'Lincoln', 'Liverpool', 'City of London', 'Manchester', 'Newcastle upon Tyne', 'Norwich', 'Nottingham', 'Oxford', 'Peterborough', 'Plymouth', 'Portsmouth', 'Preston', 'Ripon', 'Salford', 'Salisbury', 'Sheffield', 'Southampton', 'St Albans', 'Stoke-on-Trent', 'Sunderland', 'Truro', 'Wakefield', 'Wells', 'Westminster', 'Winchester', 'Wolverhampton', 'Worcester', 'York']
+
+us_locations = ['New York', 'New Orleans', 'Detroit', 'Los Angeles', 'San Francisco', 'Seattle', 'Chicago', 'Boston', 'Washington', 'Philadelphia', 'Houston', 'Dallas', 'Miami', 'Atlanta', 'Denver', 'Phoenix', 'San Diego', 'Minneapolis', 'Tampa', 'Orlando', 'Portland', 'Austin', 'Charlotte', 'Las Vegas', 'Nashville', 'Indianapolis', 'Columbus', 'San Antonio', 'Pittsburgh', 'Cincinnati', 'Kansas City', 'Sacramento', 'Cleveland', 'Milwaukee', 'St. Louis', 'Raleigh', 'Salt Lake City', 'Baltimore', 'Hartford', 'Buffalo', 'New Haven', 'Providence', 'Richmond', 'Oklahoma City', 'Louisville', 'Memphis', 'Jacksonville', 'Birmingham', 'Rochester', 'Tucson', 'Honolulu', 'Albuquerque', 'El Paso', 'Omaha', 'Allentown', 'Baton Rouge', 'Dayton', 'Tulsa', 'Worcester', 'Fresno', 'Syracuse', 'Albany', 'Bakersfield', 'Springfield', 'Toledo', 'Grand Rapids', 'Columbia', 'Greenville', 'Charleston', 'Wichita', 'Little Rock', 'Knoxville', 'Boise', 'Madison', 'Lakeland', 'Palm Bay', 'Pensacola', 'Cape Coral', 'Port St. Lucie', 'Naples', 'Sarasota', 'Ocala', 'Bridgeport', 'Newark', 'Wilmington', 'Winston-Salem', 'Greensboro', 'Reno', 'Spokane', 'Durham', 'Winston', 'Salem', 'Bakersfield', 'Stockton', 'Birmingham', 'Baton Rouge', 'Richmond', 'Des Moines', 'Harrisburg', 'Hartford', 'Jackson', 'Little Rock', 'Springfield', 'Columbia', 'Charleston', 'Wichita', 'Boise', 'Fargo', 'Sioux Falls', 'Billings', 'Cheyenne', 'Helena', 'Juneau', 'Honolulu', 'Anchorage', 'Fairbanks', 'Sitka', 'Ketchikan', 'Hilo', 'Kailua', 'Kapole']
+
+linkedin_occupations = ['Academic Advisor', 'Accountant', 'Actor', 'Advocate', 'Alumni Relations Officer', 'Archeologist', 'Architect', 'Artist', 'Artistic Director', 'Astronomer', 'Auditor', 'Bank Teller', 'Biologist', 'Blogger', 'Botanist', 'Career Counselor', 'Carpenter', 'Chef', 'Chemist', 'Civic Engagement Leader', 'Coach', 'Community Health Worker', 'Community Manager', 'Consultant', 'Credit Analyst', 'Cultural Coordinator', 'Customer Service Representative', 'Dance Teacher', 'Data Analyst', 'Digital Content Creator', 'Ecologist', 'Economist', 'Editor', 'Education Consultant', 'Electrician', 'Engineer', 'Entrepreneur', 'Environmental Advocate', 'Events Organizer', 'Financial Advisor', 'Fitness Trainer', 'Freelancer', 'Fundraiser', 'Geologist', 'Graduate Assistant', 'Graphic Designer', 'Healthcare Assistant', 'Historian', 'Hospitality Manager', 'Influencer', 'Instructor', 'Insurance Agent', 'Interior Designer', 'Investment Banker', 'Journalist', 'Language Interpreter', 'Lecturer', 'Legal Advisor', 'Librarian', 'Marketing Assistant', 'Mechanic', 'Mentor', 'Meteorologist', 'Mortgage Advisor', 'Musician', 'Non-Profit Organizer', 'Nurse', 'Nutritionist', 'Outreach Coordinator', 'Personal Trainer', 'Photographer', 'Physicist', 'Physiotherapist', 'Plumber', 'Producer', 'Program Coordinator', 'Project Manager', 'Public Relations Officer', 'Publisher', 'Real Estate Agent', 'Research Assistant', 'Retail Manager', 'Risk Manager', 'SEO Specialist', 'Salesperson', 'Social Worker', 'Software Engineer', 'Sports Coach', 'Start-up Founder', 'Stock Broker', 'Student Ambassador', 'Student Union Officer', 'Sustainability Officer', 'Tax Consultant', 'Teacher', 'Theater Director', 'Tour Guide', 'Translator', 'Travel Blogger', 'Tutor', 'UX/UI Designer', 'Videographer', 'Volunteer Coordinator', 'Web Developer', 'Writer', 'Youth Worker']
+
+def urlify(str):
+    return str.replace(" ", "%20")
+
+custom_search_array = []
+
+for location in us_locations:
+    for occupation in linkedin_occupations:
+        custom_search_array.append(f"https://www.linkedin.com/search/results/people/?keywords={urlify(occupation)}%20{urlify(location)}&network=%5B%22S%22%5D")
 
 links = custom_search_array if custom_search_array else search_links_array
 

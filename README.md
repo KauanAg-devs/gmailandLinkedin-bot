@@ -24,17 +24,17 @@ inquiries: https://t.me/nakigoe
 
 ⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
 
-<b>24 January 2024 update:</b>
+<b>24 January 2024 major upgrade:</b>
 
-Element selectors update
+•  Added search by multiple locations and multiple occupations, see the arrays `us_locations`, `uk_locations`, and `linkedin_occupations`. You still might need to copy&#8209;n&#8209;paste the exact search URL from the actual search page to add other parameters than location and occupation. Currently only one optional parameter is added: `new connection is your 2-nd connection`.
+
+•  Element selectors update
 
 <b>19 January 2024 update:</b>
 
 Multi-search feature added: 
 
-•  You can now add multiple people from your contacts, whom contacts you want to connect to;
-
-•  You can now add multiple search queries (URLs from the Linkedin Search) as an array of links of any length. Important in cases where a specific query produces short list of results and you have to perform the same search in very specific locations.
+•  You can now add multiple people from your contacts, whom contacts you want to connect to, defined in `search_links_array`;
 
 <b>20 October 2023 upgrade:</b>
 
@@ -81,12 +81,12 @@ You can find your current browser's user-agent by searching **_"What's my user-a
 
 • Your password `password`
 
-• A person on LinkedIn in whose connections You are interested `search_query`, in that case change `custom_query` to `""`
+• People on LinkedIn in whose connections You are interested, see `search_query_array`, in that case change `custom_query_array` to `[]` right after the appropriate `for` cycle
 
-Make sure that the target person allowed to browse their contacts. One can disable that in the profile settings.
-You have to find a person who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
+Make sure that the target people allowed to browse their contacts. One can disable that in the profile settings.
+You have to find people who allowed his / her contacts to be browsed. The link to the list of the person's connections must be clickable on their profile.
 
-• You can now enter Your own custom search query `custom_query`, just copy&#8209;paste from LinkedIn search URL (the&nbsp;complete `https:// blablabla` when you are at the LinkedIn search window)
+• Search by multiple locations and multiple occupations, see the arrays `us_locations`, `uk_locations`, and `linkedin_occupations` and the appropriate `for` cycle just below them. You still might need to copy&#8209;n&#8209;paste the exact search URL from the actual search page to add other parameters than location and occupation. Currently only one optional parameter is added: `new connection is your 2-nd connection`.
 
 • Your custom messages set (without greating, the greating is included in the code!). Include as many different messages as reasonably possible to minimize LinkedIn automation detection:
 
