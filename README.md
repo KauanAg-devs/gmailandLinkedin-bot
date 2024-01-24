@@ -7,21 +7,33 @@ A Python Selenium bot to automate connection with people on LinkedIn
 LinkedIn constantly updates its pages elements' selectors. If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
 
 The project needs funding, planned features:
+
 •  separating basic documentation and setup instructions;
+
 •  separating code into 3 parts: 
+
      1) script logic, 
+
      2) moving assistant functions into PyPI package, 
+
      3) adding a separate file with settings;
-•  composite queries by words coming in as JSON format instead of URLs.
+
+•  composite queries by words coming in as JSON format instead of URLs. This is important if you target multiple specific locations with specific queries that provide 3-10 results each.
 
 inquiries: https://t.me/nakigoe
 
 ⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
 
+<b>24 January 2024 update:</b>
+
+Element selectors update
+
 <b>19 January 2024 update:</b>
 
 Multi-search feature added: 
+
 •  You can now add multiple people from your contacts, whom contacts you want to connect to;
+
 •  You can now add multiple search queries (URLs from the Linkedin Search) as an array of links of any length. Important in cases where a specific query produces short list of results and you have to perform the same search in very specific locations.
 
 <b>20 October 2023 upgrade:</b>
