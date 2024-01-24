@@ -77,7 +77,7 @@ linkedin_occupations = ['Academic Advisor', 'Accountant', 'Actor', 'Advocate', '
 custom_search_array = []
 
 for location in uk_locations:
-    for occupation in my_skills:
+    for occupation in linkedin_occupations:
         custom_search_array.append(f"https://www.linkedin.com/search/results/people/?keywords={quote(occupation)}%20{quote(location)}&network=%5B%22S%22%5D")
 
 links = custom_search_array if custom_search_array else search_links_array
