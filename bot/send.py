@@ -17,6 +17,7 @@ import os
 os.system("cls") #clear screen from previous sessions
 import time
 import json # for cookies
+from urllib.parse import quote
 
 from enum import Enum # that one is for You, my dear reader, code readability from NAKIGOE.ORG
 class Status(Enum):
@@ -73,14 +74,11 @@ us_locations = ['New York', 'New Orleans', 'Detroit', 'Los Angeles', 'San Franci
 
 linkedin_occupations = ['Academic Advisor', 'Accountant', 'Actor', 'Advocate', 'Alumni Relations Officer', 'Archeologist', 'Architect', 'Artist', 'Artistic Director', 'Astronomer', 'Auditor', 'Bank Teller', 'Biologist', 'Blogger', 'Botanist', 'Career Counselor', 'Carpenter', 'Chef', 'Chemist', 'Civic Engagement Leader', 'Coach', 'Community Health Worker', 'Community Manager', 'Consultant', 'Credit Analyst', 'Cultural Coordinator', 'Customer Service Representative', 'Dance Teacher', 'Data Analyst', 'Digital Content Creator', 'Ecologist', 'Economist', 'Editor', 'Education Consultant', 'Electrician', 'Engineer', 'Entrepreneur', 'Environmental Advocate', 'Events Organizer', 'Financial Advisor', 'Fitness Trainer', 'Freelancer', 'Fundraiser', 'Geologist', 'Graduate Assistant', 'Graphic Designer', 'Healthcare Assistant', 'Historian', 'Hospitality Manager', 'Influencer', 'Instructor', 'Insurance Agent', 'Interior Designer', 'Investment Banker', 'Journalist', 'Language Interpreter', 'Lecturer', 'Legal Advisor', 'Librarian', 'Marketing Assistant', 'Mechanic', 'Mentor', 'Meteorologist', 'Mortgage Advisor', 'Musician', 'Non-Profit Organizer', 'Nurse', 'Nutritionist', 'Outreach Coordinator', 'Personal Trainer', 'Photographer', 'Physicist', 'Physiotherapist', 'Plumber', 'Producer', 'Program Coordinator', 'Project Manager', 'Public Relations Officer', 'Publisher', 'Real Estate Agent', 'Research Assistant', 'Retail Manager', 'Risk Manager', 'SEO Specialist', 'Salesperson', 'Social Worker', 'Software Engineer', 'Sports Coach', 'Start-up Founder', 'Stock Broker', 'Student Ambassador', 'Student Union Officer', 'Sustainability Officer', 'Tax Consultant', 'Teacher', 'Theater Director', 'Tour Guide', 'Translator', 'Travel Blogger', 'Tutor', 'UX/UI Designer', 'Videographer', 'Volunteer Coordinator', 'Web Developer', 'Writer', 'Youth Worker']
 
-def urlify(str):
-    return str.replace(" ", "%20")
-
 custom_search_array = []
 
-for location in us_locations:
-    for occupation in linkedin_occupations:
-        custom_search_array.append(f"https://www.linkedin.com/search/results/people/?keywords={urlify(occupation)}%20{urlify(location)}&network=%5B%22S%22%5D")
+for location in uk_locations:
+    for occupation in my_skills:
+        custom_search_array.append(f"https://www.linkedin.com/search/results/people/?keywords={quote(occupation)}%20{quote(location)}&network=%5B%22S%22%5D")
 
 links = custom_search_array if custom_search_array else search_links_array
 
