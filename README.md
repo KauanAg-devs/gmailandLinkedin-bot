@@ -2,7 +2,7 @@
 
 A Python Selenium bot to automate connection with people on LinkedIn
 
-<b>Send 100 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
+<b>Send 200 connection requests in 15 minutes with one click, automatically add custom connect message with person's name included!</b>
 
 LinkedIn constantly updates its pages elements' selectors. If You would like to see more scripts and more frequent updates, please consider a donation to the student (me) for a new laptop and an education abroad 💲💲: https://nakigoe.org/en/donate
 
@@ -65,7 +65,7 @@ Screen resolution and width is rather important when it comes to LinkedIn.
 
 ### Change Weekly:
 
-There is a weekly limit of invitations that could be sent on LinkedIn, so, to reduce automation detection, Your current weekly limit is set to 100 in `weekly_limit` and Your current `weekly_counter` is stored in a separate file `linkedin-weekly-counter.txt`.
+There is a weekly limit of invitations that could be sent on LinkedIn, so, to reduce automation detection, Your current weekly limit is set to 200 in `weekly_limit` and Your current `weekly_counter` is stored in a separate file `linkedin-weekly-counter.txt`.
 
 Be sure to reset manually the value inside the file `linkedin-weekly-counter.txt` back to 0 every Monday! Just utilize any text editor and replace any value inside the file with `0`
 
