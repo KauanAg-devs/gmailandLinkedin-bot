@@ -1,5 +1,5 @@
 '''
-2024-01-24 version, added multi-search by arrays of locations and occupations, either search the contacts of multiple people or search the results of multiple custom searches: now in one go! 
+2024-02-03 version, set CONNECT_WITH_NAME = False # Set to True in case you want to see the script in its true glory and burn through your monthly limit of personalized connection requests.
 Code is written by Maxim Angel, aka Nakigoe
 You can always find the newest version at https://github.com/nakigoe/linkedin-endorse-bot
 contact me for Python and C# lessons at nakigoetenshi@gmail.com
@@ -17,13 +17,14 @@ import os
 os.system("cls") #clear screen from previous sessions
 import time
 import json # for cookies
-from urllib.parse import quote
+from urllib.parse import quote # to replace spaces and special characters in the URL
 
 from enum import Enum # that one is for You, my dear reader, code readability from NAKIGOE.ORG
 class Status(Enum):
     SUCCESS = 0
     FAILURE = 1
-    
+
+CONNECT_WITH_NAME = False # Set to True in case you want to see the script in its true glory and burn through your monthly limit of personalized connection requests
 COOKIES_PATH = 'auth/cookies.json'
 LOCAL_STORAGE_PATH = 'auth/local_storage.json'
 user_agent = "My Standard Browser and Standard Device" # Replace with your desired user-agent string. You can find your current browser's user-agent by searching "What's my user-agent?" in a search engine
@@ -34,7 +35,7 @@ options.page_load_strategy = 'eager' #do not wait for images to load
 options.add_argument(f"user-agent={user_agent}")
 options.add_experimental_option("detach", True)
 
-s = 20 # static standard time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later», decrease if You do not use VPN and have high-speed Internet connection
+s = 20 # static standard time to wait for a single component on the page to appear, in seconds; increase it if you get server-side errors «try again later», decrease the number if You do not use a VPN and have a high-speed Internet connection
 driver = webdriver.Edge(options=options)
 action = ActionChains(driver)
 wait = WebDriverWait(driver,s)
@@ -115,6 +116,16 @@ def scroll_to_bottom(delay=2):
         if last_height == new_height:
             break
         last_height = new_height
+        
+def eternal_wait(driver, timeout, condition_type, locator_tuple): # timeout is symbolic here since it is eternal loop
+    while True:
+        try:
+            element = custom_wait(driver, timeout, condition_type, locator_tuple)
+            return element
+        except:
+            print(f"\n\nWaiting for the element(s) {locator_tuple} to become {condition_type}…")
+            time.sleep(1) # just to display a message
+            continue
 
 def load_data_from_json(path): return json.load(open(path, 'r'))
 def save_data_to_json(data, path): os.makedirs(os.path.dirname(path), exist_ok=True); json.dump(data, open(path, 'w'))
@@ -133,7 +144,7 @@ def delete_folder(folder_path):
 
 def success():
     try:
-        custom_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]'))
+        eternal_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]'))
         return True
     except:
         return False
@@ -213,8 +224,8 @@ def connect(name):
         
         message_text = message[random.randint(0,number_of_messages-1)]
         
-        # sometimes a person name is too long, rectify it with delimeters spaces, commas, etc:
-        cleaned_name = truncate_name(name, 300 - len(message_text) - len("Dear ,\n")) # 300 is the current LinkedIn limit for the connect message
+        # sometimes a person name is too long, rectify it by delimeters, spaces, commas, etc:
+        cleaned_name = truncate_name(name, 200 - len(message_text) - len("Dear ,\n")) # 200 is the current LinkedIn limit for the connect message
         
         #store the person's name and attach to the random message to reduce automation detection:
         personalized_message = f"Dear {cleaned_name},\n{message_text}"
@@ -223,6 +234,22 @@ def connect(name):
         
         set_value_with_event(cover_letter_textarea, personalized_message)
         
+        send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))
+        action.click(send_button).perform()
+        
+        # close the irritating popup "You are growing your network", "You are approaching to the weekly limit", etc.
+        try:
+            got_it_button = custom_wait(driver, 2, EC.presence_of_element_located, (By.XPATH, '//button//span[contains(., "Got it")]'))
+            click_and_wait(got_it_button,0)
+        except:
+            pass
+        
+        return Status.SUCCESS # OK, sent
+    except:
+        return Status.FAILURE
+    
+def connect_without_name():
+    try:
         send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Send now"]')))
         action.click(send_button).perform()
         
@@ -264,7 +291,11 @@ def find_connect_buttons_and_people_names_and_perform_connect():
         click_and_wait(connect_button,0.5)
         
         if (weekly_counter<weekly_limit):
-            sts = connect(person_name)  # the MAIN part is in this function!
+            # sts = connect(person_name)  # the MAIN part is in this function! Linkedin has limited the number of personalized messages to a non-existent number, so that functionality is temporarily disabled :_(
+            if CONNECT_WITH_NAME == False:
+                sts = connect_without_name()  # the MAIN part is in this function!
+            else:
+                sts = connect(person_name) # just in case you want to see the script in its True glory
             if sts == Status.FAILURE: continue
             elif sts == Status.SUCCESS:
                 weekly_counter +=1
@@ -283,11 +314,11 @@ def main():
     for i, link in enumerate(links): 
         if i > 0: #fist link is already opened
             driver.get(link)
-            time.sleep(15)
+            eternal_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]')) # wait for the page to load
             
         if not custom_search_array: # that is, if you want to connect to the friend's friends, not the random custom search results
             action.click(wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="ember-view"]')))).perform()
-            time.sleep(15)
+            eternal_wait(driver, 15, EC.presence_of_element_located, (By.XPATH, '//div[contains(@class,"global-nav__me")]')) # wait for the page to load
         
         hide_header_and_messenger()
         while True:

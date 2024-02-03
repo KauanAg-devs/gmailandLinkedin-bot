@@ -22,6 +22,12 @@ inquiries: https://t.me/nakigoe
 
 ⭐ Add stars to all my repositories on GitHub: https://github.com/nakigoe
 
+<b>3 February 2024 update:</b>
+
+•  `eternal_wait()` function introduced to wait for login and other critical pages to load. That is the star of this script!!!
+
+•  LinkedIn has limited the number of personalized invitations that could be sent per month, so the script sends 200 invitations per week as previousely, but the function that sent a custom message with a person's name is turned on by setting the `CONNECT_WITH_NAME = True`. Currently is set to `CONNECT_WITH_NAME = False` to keep the number of available personalized messages per month to the moments when you actually need them.
+
 <b>24 January 2024 major upgrade:</b>
 
 •  Added search by multiple locations and multiple occupations, see the arrays `us_locations`, `uk_locations`, and `linkedin_occupations`. You still might need to copy&#8209;n&#8209;paste the exact search URL from the actual search page to add other parameters than location and occupation. Currently only one optional parameter is added: `new connection is your 2-nd connection`.
