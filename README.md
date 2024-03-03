@@ -46,7 +46,7 @@ Multi-search feature added:
 
 <b>24 September 2023 upgrade:</b>
 
-• if a message recepeient's name is too long, shortens it to fit the LinkedIn limit of 300 characters per message.
+• if a message recepeient's name is too long, shortens it to fit the LinkedIn limit of 200 characters per message.
 
 <b>13 September 2023 major upgrade:</b>
 
@@ -130,8 +130,7 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
 <br>
 <p style="margin: 0 auto" align="center">Please cast an eye on my website:</p>
 <h1><a href="https://nakigoe.org/" style="background-color: black;" target="_blank">
-  <img style="display: block; width: calc(100vw - (100vw - 100%));"
-    src="https://nakigoe.org/_IMG/logo.png" 
+  <img src="https://nakigoe.org/_IMG/logo.png" 
     srcset="https://nakigoe.org/_IMG/logo.png 4800w,
       https://nakigoe.org/_SRC/logo-3840.png 3840w,
       https://nakigoe.org/_SRC/logo-2560.png 2560w,
@@ -148,14 +147,32 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
       https://nakigoe.org/_SRC/logo-600.png 600w,
       https://nakigoe.org/_SRC/logo-480.png 480w,
       https://nakigoe.org/_SRC/logo-300.png 300w"
+    width="4800" 
+    height="700"
+    sizes="100vw" 
     alt="NAKIGOE.ORG">
-<img class="blend" style="display: block; width: calc(100vw - (100vw - 100%));" 
-  src="https://nakigoe.org/_IMG/nakigoe-academy-night.jpg" 
-  srcset="https://nakigoe.org/_IMG/nakigoe-academy-night.jpg 2800w,
-    https://nakigoe.org/_SRC/nakigoe-academy-night-2048.jpg 2048w"
+<img src="_IMG/nakigoe-academy-night.jpg" 
+  srcset="_IMG/nakigoe-academy-night.jpg 2800w,
+    _SRC/nakigoe-academy-night-2560.jpg 2560w,
+    _SRC/nakigoe-academy-night-2048.jpg 2048w,
+    _SRC/nakigoe-academy-night-1920.jpg 1920w,
+    _SRC/nakigoe-academy-night-1600.jpg 1600w,
+    _SRC/nakigoe-academy-night-1440.jpg 1440w,
+    _SRC/nakigoe-academy-night-1400.jpg 1400w,
+    _SRC/nakigoe-academy-night-1280.jpg 1280w,
+    _SRC/nakigoe-academy-night-1200.jpg 1200w,
+    _SRC/nakigoe-academy-night-960.jpg 960w,
+    _SRC/nakigoe-academy-night-720.jpg 720w,
+    _SRC/nakigoe-academy-night-600.jpg 600w,
+    _SRC/nakigoe-academy-night-480.jpg 480w,
+    _SRC/nakigoe-academy-night-360.jpg 360w,
+    _SRC/nakigoe-academy-night-300.jpg 300w,
+    _SRC/nakigoe-academy-night-240.jpg 240w"
+  sizes="100vw" 
+  width="2800" 
+  height="2800" 
   alt="Nakigoe Academy">
-  <img class="blend" style="display: block; width: calc(100vw - (100vw - 100%)); padding-bottom: 0.05em;"
-    src="https://nakigoe.org/_IMG/logo-hot-bevel.png" 
+  <img src="https://nakigoe.org/_IMG/logo-hot-bevel.png" 
     srcset="https://nakigoe.org/_IMG/logo-hot-bevel.jpg 4800w,
       https://nakigoe.org/_SRC/logo-hot-bevel-3840.jpg 3840w,
       https://nakigoe.org/_SRC/logo-hot-bevel-2560.jpg 2560w,
@@ -172,6 +189,9 @@ The fresh version is always here: https://github.com/nakigoe/linkedin-bot
       https://nakigoe.org/_SRC/logo-hot-bevel-600.jpg 600w,
       https://nakigoe.org/_SRC/logo-hot-bevel-480.jpg 480w,
       https://nakigoe.org/_SRC/logo-hot-bevel-300.jpg 300w"
+    width="4800" 
+    height="750"
+    sizes="100vw" 
     alt="NAKIGOE.ORG">
 </a></h1>
 
