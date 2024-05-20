@@ -1,6 +1,0 @@
-I'm Maxim Angel.
-I adore generative AI, Maths, Economics, and Policy Analysis. 
-I do web-programming in C#, Python, PHP, and JavaScript. 
-I speak English, Russian, Tajik, Mandarin, and Japanese. 
-Learn more about me: 
-https://nakigoe.org
